@@ -18,8 +18,8 @@ To install requirements type
 <code>pip install -r requirements.txt</code>
 To use Github api put your credentials in settings.py
 
-GIT_CLIENT_ID = 'your github client id'
-GIT_CLIENT_SECRET = 'your github client secret'
+GIT_CLIENT_ID = 'your github client id'<br>
+GIT_CLIENT_SECRET = 'your github client secret'<br>
 To migrate the database open terminal in project directory and type
 
 <code>python manage.py makemigrations</code><br>
