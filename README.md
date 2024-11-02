@@ -1,15 +1,15 @@
 # FileShareProject
  Django-React based file sharing application that demonstrates basic securiy features and implementation
 
-<h3>Frontend( React )</h3>
-To install dependency
-<code>npm install</code>
-To start the server
-<code>npm start</code>
-For Production Build
-<code>npm run build</code>
-I have used proxy http://127.0.0.1 for axios in package.json
-You can set axios.defaults.baseURL = https://api.example.com Globally
+<h3>Frontend( React )</h3><br>
+To install dependency<br>
+<code>npm install</code><br>
+To start the server<br>
+<code>npm start</code><br>
+For Production Build<br>
+<code>npm run build</code><br>
+I have used proxy http://127.0.0.1 for axios in package.json<br>
+You can set axios.defaults.baseURL = https://api.example.com Globally<br>
 <h3>Backend( Django )</h3>
 
 Requirements
