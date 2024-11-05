@@ -1,0 +1,266 @@
+
+//Formatting for: Messages Page
+.messageshome{
+
+    // Background/general page settings
+    background-color: #444444;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // Container for all components besides page background
+    .container{
+        border: 0px solid #222831;
+        border-radius: 10px;
+        width: 65%;
+        height: 85%;
+        display: flex;
+        overflow:hidden;
+        
+        // Left side of container (Contains navbar.tsx, search.tsx, chats.tsx)
+        .sidebar{
+            flex: 1;
+            border-right: 1px solid #31363F;
+            background-color: #31363F;
+
+            // Upper section of the sidebar (Contains sidebar title, User pfp, Username and logout button)
+            .navbar{
+                display: flex;
+                align-items: center;
+                background-color: #222831;
+                height: 50px;
+                padding: 10px;
+                justify-content: space-between;
+                color: white;
+                
+                //Title in the top-left
+                .logo{
+                    font-weight: bold;
+                }
+                
+                //Formatting for current user
+                .user{
+                    display:flex;
+                    gap: 10px;
+                    
+                    //Pfp of current user
+                    img{
+                        background-color: #ddddf7; 
+                        height: 24px;
+                        width: 24px;
+                        border-radius: 50%;
+                    }
+                    
+                    //Logout button
+                    button{
+                        background-color: #31363F;
+                        font-size: 10px; 
+                        color: #ddddf7;
+                        height: 20px;
+                        align-self: center; 
+                        padding: 2px;
+                        border-radius: 4px;
+                        cursor: pointer;
+
+                    }
+                }
+
+                
+            }
+
+            // Search bar in sidebar
+            .search{
+                border-bottom: 1px solid gray;
+
+                // Actual seachbox
+                .searchForm{
+                    padding: 10px;
+
+                    // Formating for input text
+                    input{
+                        background-color: transparent;
+                        border: none;
+                        color: white;
+                        outline: none;
+
+                        &::placeholder{
+                            color:lightgray;
+                        }
+                    }
+                }
+            }
+
+            // List of userChats under searchbar
+            .userChat{
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: white;
+                cursor: pointer;
+
+                &:hover{
+                    background-color: #2f2d52;
+                }
+
+                // Format for user pfp
+                img{
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+                .userChatInfo{
+                    // Format for username
+                    span{font-style: 18px;font-weight: 500;}
+
+                    // Format for most recent message
+                    p{font-style: 14px;color: lightgray;}
+                }
+            }
+        }
+
+        // Right side of container (Contains, Chat.tsx, Input.tsx, Messages.tsx, Message.tsx)
+        .chat{
+            flex: 2;
+
+            // Box above conversation (Recipient, options)
+            .chatInfo{
+                height: 50px;
+                background-color: #588183;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px;
+                color: lightgray;
+            }
+
+            // Icons in top right (Call, Video, More)
+            .chatIcons{
+                display: flex;
+                gap: 10px;
+
+                img{
+                    color:white;
+                    height: 24px;
+                    cursor: pointer;
+                }
+            }
+
+            // Previous messages in current conversation
+            .messages{
+                background-color: #76ABAE;
+                padding: 10px;
+                height: calc(100% - 100px);
+                overflow: scroll;
+
+                .message{
+                    display: flex;
+                    gap: 20px;
+                    margin-bottom: 20px;
+
+                    .messageInfo{
+                        // Time message was sent
+                        display: flex;
+                        flex-direction: column;
+                        color: gray;
+                        font-weight: 300;
+                        
+                        //Sender pfp
+                        img{
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            object-fit: cover;
+                        }
+                        
+                    }
+                    .messageContent{
+                        max-width: 80%;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+
+                        // Message text format
+                        p{
+                            background-color: white;
+                            padding: 10px 20px;
+                            border-radius: 0px 10px 10px 10px;
+                            max-width: max-content;
+                        }
+                        // Message img format (if applicable)
+                        img{
+                            width: 50%;
+                        }
+                    }
+
+                    // Alternate format for messages sent by currentUser
+                    &.owner{
+                        // Message alignment
+                        flex-direction: row-reverse;
+
+                        .messageContent{
+                            align-items: flex-end;
+                            p{
+                                background-color: #222831;
+                                columns: white;
+                                border-radius: 10px 0px 10px 10px;
+                            }
+                        }
+
+                        
+                    }
+                }
+            }
+
+            // Message input box
+            .input{
+                height: 50px;
+                background-color: white;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                // Text box that will hold user input
+                input{
+                    width: 80%;
+                    border: none;
+                    outline: none;
+                    color: #2f2d52;
+                    font-style: 18px;
+
+                    &::placeholder{
+                        color: #588183;
+                    }
+                }
+                
+                // Send, photo, and file buttons
+                .send{
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+
+                    // Photo and File icons
+                    img{
+                        height: 20px;
+                        width: 25px;
+                        cursor: pointer;
+                    }
+
+                    // Send message button
+                    button{
+                        border: none;
+                        padding: 5px 10px;
+                        color: white;
+                        background-color: #8da4f1;
+                        cursor: pointer;
+                    }
+                }
+            }   
+        }
+    }
+}
