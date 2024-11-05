@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";  // Import React Router components
+import { Routes, Route, Navigate, Router, BrowserRouter } from "react-router-dom";  // Import React Router components
 import "./style.scss"
 import Login from "./loginpage/Login";        // Login component
 import Register from "./loginpage/Register";  // Register component
@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">
       {/* Full-screen container, centers content */}
-      
+      <BrowserRouter>
       <Routes>
         {/* Define app routes */}
 
@@ -29,6 +29,7 @@ function App() {
         <Route path="/messageshome" element={<MessageHome />} />
         {/* Message home page route */}
       </Routes>
+      </BrowserRouter>
     </div>
   );
 }
