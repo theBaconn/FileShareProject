@@ -3,50 +3,42 @@ import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");  // state for username input
+  const [email, setEmail] = useState<string>("");        // state for email input
   const [password, setPassword] = useState<string>("");  // state for password input
   const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent): void => {
     e.preventDefault();
+    // Logging all inputs on form submission only
+    console.log("Form Submitted:");
+    console.log("Username:", username);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    
     // Implement login authentication logic here
   };
 
   return (
     <div className="w-full h-screen flex flex-col md:flex-row mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
-      {/* Full-screen container that centers content */}
-
       <div
         className="md:w-[57.6388889%] w-full h-1/2 md:h-full bg-cover bg-center relative"
         style={{ backgroundImage: "url('/src/assets/cyber.jpg')" }}
       >
-        {/* Left section with the background image */}
-
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-          {/* Replaced button with a title */}
-          
           <h2 className="text-4xl text-white font-semibold">
             Secure Messaging
           </h2>
-          {/* Header text as title */}
         </div>
       </div>
 
       <div className="md:w-[42.3611111%] w-full h-1/2 md:h-full flex items-center justify-center bg-white">
-        {/* Right section with login box */}
-        
         <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-sm w-full mx-4 md:mx-0">
-          {/* Container for the login form */}
-          
           <h1 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">Login</h1>
-          {/* Login form title */}
-
           <p className="text-gray-600 mb-3 md:mb-4 text-center">
             Please enter your login details to sign in.
           </p>
 
           <form onSubmit={handleLogin}>
-            {/* Form submission triggers handleLogin */}
-            
             <div className="mb-3 md:mb-4">
               <label
                 htmlFor="username"
@@ -54,8 +46,6 @@ const Login: React.FC = () => {
               >
                 Username
               </label>
-              {/* Label for username input */}
-
               <input
                 type="text"
                 id="username"
@@ -65,7 +55,24 @@ const Login: React.FC = () => {
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
-              {/* Username input field */}
+            </div>
+
+            <div className="mb-3 md:mb-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter email address"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
             </div>
 
             <div className="mb-4 md:mb-6">
@@ -75,8 +82,6 @@ const Login: React.FC = () => {
               >
                 Password
               </label>
-              {/* Label for password input */}
-
               <input
                 type="password"
                 id="password"
@@ -86,7 +91,6 @@ const Login: React.FC = () => {
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
-              {/* Password input field */}
             </div>
 
             <button
@@ -95,7 +99,6 @@ const Login: React.FC = () => {
             >
               Login
             </button>
-            {/* Submit button */}
           </form>
 
           <div className="mt-3 md:mt-4 text-center">
@@ -103,7 +106,6 @@ const Login: React.FC = () => {
             <button className="mt-2 text-sm text-indigo-600 hover:text-indigo-500" onClick={() => navigate('/register')}>
               Register Here
             </button>
-            {/* Register link as a button to avoid page reload */}
           </div>
         </div>
       </div>

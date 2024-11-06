@@ -1,72 +1,72 @@
-import React, { useState } from "react";
+import React, { FormEvent } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";  
 
-const Register = () => {
-  const [username, setUsername] = useState("");          // username input state
-  const [password, setPassword] = useState("");          // password input state
-  const [confirmPassword, setConfirmPassword] = useState(""); // confirm password input state
 
-  const handleSubmit = (e: React.FormEvent) => {
+const Register: React.FC = () => {
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();  // prevent default form behavior
 
-    if (password === confirmPassword) {
-      console.log("Registering with", { username, password });
-      // Add your registration logic here
-    } else {
-      alert("Passwords do not match!"); // basic alert for mismatched passwords
-    }
-  };
+    // Accessing form values directly using e.target
+    const displayName = ((e.target as HTMLFormElement)[0] as HTMLInputElement).value;
+    const email = ((e.target as HTMLFormElement)[1] as HTMLInputElement).value;
+    const password = ((e.target as HTMLFormElement)[2] as HTMLInputElement).value;
+    const confirmPassword = ((e.target as HTMLFormElement)[3] as HTMLInputElement).value;
+    
+
+createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    const user = userCredential.user;
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });};
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-      {/* Container for the registration form */}
-      
       <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
-      {/* Title for the registration form */}
 
       <form onSubmit={handleSubmit}>
-        {/* Form submission will trigger handleSubmit */}
-
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Username</label>
-          {/* Label for the username input */}
-
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
             placeholder="Enter username"
             required
           />
-          {/* Username input field */}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Email Address</label>
+          <input
+            type="email"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+            placeholder="Enter email"
+            required
+          />
         </div>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Password</label>
-          {/* Label for the password input */}
-
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+            placeholder="Enter password"
             required
           />
-          {/* Password input field */}
         </div>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
-          {/* Label for the confirm password input */}
-
           <input
             type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+            placeholder="Confirm password"
             required
           />
-          {/* Confirm password input field */}
         </div>
 
         <button
@@ -75,7 +75,6 @@ const Register = () => {
         >
           Register
         </button>
-        {/* Submit button for registration */}
       </form>
     </div>
   );
