@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, Router, BrowserRouter } from "react-router-dom
 import "./style.scss"
 import Login from "./loginpage/Login";        // Login component
 import Register from "./loginpage/Register";  // Register component
-import ForgotPassword from "./loginpage/ForgotPassword";  // ForgotPassword component
+import ForgotPassword from "./loginpage/ForgotPassword";  // ForgotPassword component 
 import MessageHome from "./pages/messages/MessageHome";
 
 function App() {
