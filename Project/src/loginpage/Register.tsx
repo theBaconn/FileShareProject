@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const Register = () => {
-  const [email, setEmail] = useState("");                // email input state
+  const [username, setUsername] = useState("");          // username input state
   const [password, setPassword] = useState("");          // password input state
   const [confirmPassword, setConfirmPassword] = useState(""); // confirm password input state
 
@@ -9,7 +9,7 @@ const Register = () => {
     e.preventDefault();  // prevent default form behavior
 
     if (password === confirmPassword) {
-      console.log("Registering with", { email, password });
+      console.log("Registering with", { username, password });
       // Add your registration logic here
     } else {
       alert("Passwords do not match!"); // basic alert for mismatched passwords
@@ -27,17 +27,18 @@ const Register = () => {
         {/* Form submission will trigger handleSubmit */}
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Email</label>
-          {/* Label for the email input */}
+          <label className="block text-sm font-medium text-gray-700">Username</label>
+          {/* Label for the username input */}
 
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+            placeholder="Enter username"
             required
           />
-          {/* Email input field */}
+          {/* Username input field */}
         </div>
 
         <div className="mb-4">

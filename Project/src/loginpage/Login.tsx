@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>("");  // state for email input
+  const [username, setUsername] = useState<string>("");  // state for username input
   const [password, setPassword] = useState<string>("");  // state for password input
   const navigate = useNavigate();
 
@@ -46,25 +46,26 @@ const Login: React.FC = () => {
 
           <form onSubmit={handleLogin}>
             {/* Form submission triggers handleLogin */}
+            
             <div className="mb-3 md:mb-4">
               <label
-                htmlFor="email"
+                htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
-                Email Address
+                Username
               </label>
-              {/* Label for email input */}
+              {/* Label for username input */}
 
               <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter email address"
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter username"
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
               />
-              {/* Email input field */}
+              {/* Username input field */}
             </div>
 
             <div className="mb-4 md:mb-6">
