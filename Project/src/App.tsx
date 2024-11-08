@@ -1,12 +1,28 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Routes, Route, Navigate, Router, BrowserRouter } from "react-router-dom";  // Import React Router components
-import "./style.scss"
+import "./style.scss";
 import Login from "./loginpage/Login";        // Login component
 import Register from "./loginpage/Register";  // Register component
 import ForgotPassword from "./loginpage/ForgotPassword";  // ForgotPassword component 
 import MessageHome from "./pages/messages/MessageHome";
+import Notification from './Notification';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 
-function App() {
+const App = () =>{
+  const user = false;
+
+  useEffect(()=>{
+    const unSub = onAuthStateChanged(auth,(user)=>{
+      console.log(user);
+    });
+
+    return () =>{
+      unSub();
+    };
+  }, []);
+  
+
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">
       {/* Full-screen container, centers content */}
@@ -30,6 +46,7 @@ function App() {
         {/* Message home page route */}
       </Routes>
       </BrowserRouter>
+      <Notification/> {/*Toast notification*/}
     </div>
   );
 }

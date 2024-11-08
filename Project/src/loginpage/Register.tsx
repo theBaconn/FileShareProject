@@ -1,41 +1,74 @@
 import React, { FormEvent } from "react";
+import { toast } from "react-toastify"
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";  
+import { auth, db } from "../firebase"; 
+import { doc, setDoc } from "firebase/firestore" 
 
 
 const Register: React.FC = () => {
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();  // prevent default form behavior
 
-    // Accessing form values directly using e.target
-    const displayName = ((e.target as HTMLFormElement)[0] as HTMLInputElement).value;
-    const email = ((e.target as HTMLFormElement)[1] as HTMLInputElement).value;
-    const password = ((e.target as HTMLFormElement)[2] as HTMLInputElement).value;
-    const confirmPassword = ((e.target as HTMLFormElement)[3] as HTMLInputElement).value;
-    
+    const formData = new FormData(e.currentTarget);
 
-createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    const user = userCredential.user;
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  });};
+    const { username, email, password, repassword} = Object.fromEntries(formData.entries()) as Record<string, string>; 
+
+    if (!username){
+      return toast.warn("Please enter username")
+    }
+    if (!email){
+      return toast.warn("Please enter email")
+    }
+    if (!password){
+      return toast.warn("Please enter password")
+    }
+    if (!repassword){
+      return toast.warn("Please re-enter password")
+    }
+    if (password!=repassword){
+      return toast.warn("Passwords do not match!")
+    }
+
+    try{
+      const res = await createUserWithEmailAndPassword(auth, email, password)
+      await setDoc(doc(db, "users", res.user.uid), {
+        username,
+        email,
+        id: res.user.uid,
+      });
+      
+      await setDoc(doc(db, "userchats", res.user.uid), {
+        chats: [],
+      });
+
+      toast.success("Account created! You can login now!")
+    }catch(err: unknown){
+      if (err instanceof Error){
+        console.log(err)
+        toast.error(err.message)
+      }
+      else{
+        console.log("An unkown error occurred:", err)
+        toast.error('An unkown error occurred');
+      }
+    }
+  }
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
       <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
-
-      <form onSubmit={handleSubmit}>
+      <form 
+      id="registerForm"
+      onSubmit={handleRegister}>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Username</label>
           <input
-            type="text"
+            type="username"
+            name="username"
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-            placeholder="Enter username"
-            required
+            placeholder="Username"
+            //required
           />
         </div>
 
@@ -43,9 +76,10 @@ createUserWithEmailAndPassword(auth, email, password)
           <label className="block text-sm font-medium text-gray-700">Email Address</label>
           <input
             type="email"
+            name="email"
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-            placeholder="Enter email"
-            required
+            placeholder="Email"
+            //required
           />
         </div>
 
@@ -53,19 +87,21 @@ createUserWithEmailAndPassword(auth, email, password)
           <label className="block text-sm font-medium text-gray-700">Password</label>
           <input
             type="password"
+            name="password"
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-            placeholder="Enter password"
-            required
+            placeholder="Password"
+            //required
           />
         </div>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
           <input
-            type="password"
+            type="repassword"
+            name="repassword"
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
             placeholder="Confirm password"
-            required
+            //required
           />
         </div>
 

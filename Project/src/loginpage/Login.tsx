@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify"
+import { auth } from "@/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");  // state for username input
@@ -7,8 +10,31 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>("");  // state for password input
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent): void => {
+  const [loading, setLoading] = useState(false)
+
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const { email, password} = Object.fromEntries(formData.entries()) as Record<string, string>;
+
+    try{
+      await signInWithEmailAndPassword(auth,email,password)
+
+    }catch(err: unknown){
+      if (err instanceof Error){
+        console.log(err)
+        toast.error(err.message)
+      }
+      else{
+        console.log("An unkown error occurred:", err)
+        toast.error('An unkown error occurred');
+      }
+    }
+    finally{
+      setLoading(false)
+    }
     // Logging all inputs on form submission only
     console.log("Form Submitted:");
     console.log("Username:", username);
@@ -26,7 +52,7 @@ const Login: React.FC = () => {
       >
         <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
           <h2 className="text-4xl text-white font-semibold">
-            Secure Messaging
+            EchoSecure
           </h2>
         </div>
       </div>
@@ -38,34 +64,16 @@ const Login: React.FC = () => {
             Please enter your login details to sign in.
           </p>
 
-          <form onSubmit={handleLogin}>
-            <div className="mb-3 md:mb-4">
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter username"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                required
-              />
-            </div>
-
-            <div className="mb-3 md:mb-4">
+          <form onSubmit={handleLogin}>            
+            <div className="mb-3 md:mb-4">              
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+                className="block text-sm font-medium text-gray-700">
                 Email Address
-              </label>
+              </label>              
               <input
                 type="email"
+                name="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -74,29 +82,27 @@ const Login: React.FC = () => {
                 required
               />
             </div>
-
             <div className="mb-4 md:mb-6">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+                className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
                 type="password"
+                name="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 required
-              />
+                />
             </div>
 
             <button
               type="submit"
-              className="w-full py-2 px-4 border border-black text-sm font-medium rounded-md text-black bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
+              className="w-full py-2 px-4 border border-black text-sm font-medium rounded-md text-black bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Login
             </button>
           </form>
